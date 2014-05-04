@@ -27,11 +27,23 @@ private:
 
 	sf::RenderWindow		mWindow;
 	World					mWorld;
+	sf::Time				timeStep;
+	sf::Time				timeToNextSimulate;
 
 	sf::Font				mFont;
 	sf::Text				mStatisticsText;
 	sf::Time				mStatisticsUpdateTime;
 	std::size_t				mStatisticsNumFrames;
 	sf::RectangleShape		mTextBackground;
+
+	enum GameState
+	{
+		Play,
+		Pause,
+	};
+	GameState				gameState;
+
+	//Buttons
+	sf::RectangleShape playpauseButton;
 
 };

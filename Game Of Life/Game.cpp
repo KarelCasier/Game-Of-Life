@@ -5,10 +5,13 @@ const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f); // = 0.6 seconds pe
 Game::Game()
 : mWindow(sf::VideoMode(1000, 1000), "Game of Life")
 , mWorld(100, 100)
+, timeStep(sf::seconds(.1))
+, timeToNextSimulate(timeStep)
 , mFont()
 , mStatisticsText()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
+, gameState(Pause)
 {
 	mWindow.setKeyRepeatEnabled(false);
 
@@ -19,6 +22,10 @@ Game::Game()
 
 	mTextBackground.setSize(sf::Vector2f(115.f, 35.f));
 	mTextBackground.setFillColor(sf::Color(0, 0, 0, 80));
+
+	playpauseButton.setSize(sf::Vector2f(20.f, 20.f));
+	playpauseButton.setPosition(5.f, mWindow.getSize().y - 25.f);
+	playpauseButton.setFillColor(sf::Color(0, 0, 0, 100));
 }
 
 void Game::run()
@@ -49,18 +56,38 @@ void Game::processEvents()
 	sf::Event event;
 	while (mWindow.pollEvent(event))
 	{
-		//mPlayer.handleEvent(event, commands);
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			sf::Vector2i mousePos(event.mouseButton.x, event.mouseButton.y);
+			if (playpauseButton.getGlobalBounds().contains((float)mousePos.x, (float)mousePos.y))
+			{
+				if (gameState == Pause)
+					gameState = Play;
+				else
+					gameState = Pause;
+			}
+
+			mWorld.rejuvenateCell(mousePos.x, mousePos.y);
+		}
+		
 
 		if (event.type == sf::Event::Closed)
 			mWindow.close();
 	}
 
-	//mPlayer.handleRealtimeInput(commands);
 }
 
 void Game::update(sf::Time dtTime)
 {
-	mWorld.simulate(dtTime);
+	if (gameState == Play)
+	{
+		timeToNextSimulate -= dtTime;
+		if (timeToNextSimulate.asSeconds() <= 0)
+		{
+			timeToNextSimulate = timeStep;
+			mWorld.simulate();
+		}
+	}
 }
 
 void Game::updateStatistics(sf::Time elapsedTime)
@@ -88,5 +115,6 @@ void Game::render()
 	mWindow.draw(mWorld);
 	mWindow.draw(mTextBackground);
 	mWindow.draw(mStatisticsText);
+	mWindow.draw(playpauseButton);
 	mWindow.display();
 }
