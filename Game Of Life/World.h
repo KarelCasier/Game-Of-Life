@@ -10,6 +10,8 @@ public:
 					World(unsigned int width, unsigned int height);
 	void			simulate();
 	void			switchCell(int x, int y);
+	void			rejuvenateCell(int x, int y);
+	void			killCell(int x, int y);
 	unsigned int	getGeneration() const;
 
 	virtual void	draw(sf::RenderTarget& target, sf::RenderStates states) const;

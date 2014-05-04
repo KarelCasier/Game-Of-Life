@@ -6,20 +6,20 @@
 //						//
 // 1. Game starts paused			//
 // 2. Click tiles to rejuvenate/kill the cell	//
-// 3. Click the quare in the bottom left to 	//
+// 3. Click the square in the bottom left to 	//
 //    play/pause				//
+// 4. Left click and drag rejuvenates cells	//
+// 5. Right click and drag kills cells		//
 //						//
 //////////////////////////////////////////////////
 //		       Todo			//
 //////////////////////////////////////////////////
 //						//
-// 1. Add click and drag to rejuvenate/kill	//
-// 2. Add Generation text			//
-// 3. Add adjustable timestep			//
-// 4. Add load/save function			//
-// 5. Add random initial cell states		//
-// 6. Add clear all button			//
-// 7. Adjustable grid size			//
-// 8. Zoom					//
+// 1. Add adjustable timestep			//
+// 2. Add load/save function			//
+// 3. Add random initial cell states		//
+// 4. Add clear all button			//
+// 5. Adjustable grid size			//
+// 6. Zoom					//
 //						//
 //////////////////////////////////////////////////

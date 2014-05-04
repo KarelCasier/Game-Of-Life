@@ -79,6 +79,20 @@ void Game::processEvents()
 			mWindow.close();
 	}
 
+	// realtime events
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		sf::Vector2i mousePos(sf::Mouse::getPosition(mWindow));
+		mWorld.rejuvenateCell(mousePos.x, mousePos.y);
+	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+		sf::Vector2i mousePos(sf::Mouse::getPosition(mWindow));
+		mWorld.killCell(mousePos.x, mousePos.y);
+	}
+	
+
 }
 
 void Game::update(sf::Time dtTime)

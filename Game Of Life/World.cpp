@@ -198,6 +198,24 @@ void World::switchCell(int x, int y)
 	}
 }
 
+void World::rejuvenateCell(int x, int y)
+{
+	int i = static_cast<int>(floor(x / tSize));
+	int j = static_cast<int>(floor(y / tSize));
+	stateArray[i][j] = ALIVE;
+	sf::Vertex* quad = &mVertices[(i + j * mGridSize.x) * 4];
+	changeVertexColour(quad, sf::Color::Black);
+}
+
+void World::killCell(int x, int y)
+{
+	int i = static_cast<int>(floor(x / tSize));
+	int j = static_cast<int>(floor(y / tSize));
+	stateArray[i][j] = DEAD;
+	sf::Vertex* quad = &mVertices[(i + j * mGridSize.x) * 4];
+	changeVertexColour(quad, sf::Color::White);
+}
+
 unsigned int World::getGeneration() const
 {
 	return mGeneration;
