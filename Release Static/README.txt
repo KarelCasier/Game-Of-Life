@@ -19,5 +19,7 @@
 // 4. Add load/save function			//
 // 5. Add random initial cell states		//
 // 6. Add clear all button			//
+// 7. Adjustable grid size			//
+// 8. Zoom					//
 //						//
 //////////////////////////////////////////////////
