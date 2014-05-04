@@ -182,6 +182,7 @@ void World::changeVertexColour(sf::Vertex* quad, sf::Color colour)
 
 void World::switchCell(int x, int y)
 {
+	if (x < 0 || y < 0) return;
 	int i = static_cast<int>(floor(x / tSize));
 	int j = static_cast<int>(floor(y / tSize));
 	if (stateArray[i][j] == ALIVE)
@@ -200,6 +201,7 @@ void World::switchCell(int x, int y)
 
 void World::rejuvenateCell(int x, int y)
 {
+	if (x < 0 || y < 0) return;
 	int i = static_cast<int>(floor(x / tSize));
 	int j = static_cast<int>(floor(y / tSize));
 	stateArray[i][j] = ALIVE;
@@ -209,6 +211,7 @@ void World::rejuvenateCell(int x, int y)
 
 void World::killCell(int x, int y)
 {
+	if (x < 0 || y < 0) return;
 	int i = static_cast<int>(floor(x / tSize));
 	int j = static_cast<int>(floor(y / tSize));
 	stateArray[i][j] = DEAD;
