@@ -224,6 +224,27 @@ unsigned int World::getGeneration() const
 	return mGeneration;
 }
 
+void World::reset()
+{
+	for (unsigned int i = 0; i < mGridSize.x; ++i)
+	{
+		for (unsigned int j = 0; j < mGridSize.y; ++j)
+		{
+			// reset stateArrays
+			stateArray[i][j] = DEAD;
+			newStateArray[i][j] = DEAD;
+
+			// get pointer to current tile's quad
+			sf::Vertex* quad = &mVertices[(i + j * mGridSize.x) * 4];
+
+			// reset vertex colour
+			changeVertexColour(quad, sf::Color::White);
+		}
+	}
+
+	mGeneration = 0;
+}
+
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	// apply the transformation

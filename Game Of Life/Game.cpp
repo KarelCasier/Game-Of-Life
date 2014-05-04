@@ -5,13 +5,14 @@ const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f); // = 0.6 seconds pe
 Game::Game()
 : mWindow(sf::VideoMode(1000, 1000), "Game of Life")
 , mWorld(100, 100)
-, timeStep(sf::seconds(.1))
 , timeToNextSimulate(timeStep)
 , mFont()
 , mStatisticsText()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
 , gameState(Pause)
+, possibleTimeSteps({ { sf::seconds(.1), sf::seconds(.3), sf::seconds(.7), sf::seconds(1)} })
+, timeStepChoice(1)
 {
 	mWindow.setKeyRepeatEnabled(false);
 
@@ -27,9 +28,26 @@ Game::Game()
 	mTextBackground.setSize(sf::Vector2f(115.f, 55.f));
 	mTextBackground.setFillColor(sf::Color(0, 0, 0, 80));
 
-	playpauseButton.setSize(sf::Vector2f(20.f, 20.f));
-	playpauseButton.setPosition(5.f, mWindow.getSize().y - 25.f);
-	playpauseButton.setFillColor(sf::Color(0, 0, 0, 100));
+	controlsTexture.loadFromFile("controls.png");
+
+	playpauseButton.setTexture(controlsTexture);
+	playpauseButton.setTextureRect(sf::IntRect(sf::Vector2i(123, 0), sf::Vector2i(60, 56)));
+	playpauseButton.setPosition(5.f, mWindow.getSize().y - 56 - 5);
+
+	stopButton.setTexture(controlsTexture);
+	stopButton.setTextureRect(sf::IntRect(sf::Vector2i(60, 0), sf::Vector2i(60, 56)));
+	stopButton.setPosition(5.f + 60 * 1, mWindow.getSize().y - 56 - 5);
+
+	slowerStepButton.setTexture(controlsTexture);
+	slowerStepButton.setTextureRect(sf::IntRect(sf::Vector2i(240, 0), sf::Vector2i(60, 56)));
+	slowerStepButton.setPosition(5.f + 60 * 2, mWindow.getSize().y - 56 - 5);
+
+	fasterStepButton.setTexture(controlsTexture);
+	fasterStepButton.setTextureRect(sf::IntRect(sf::Vector2i(180, 0), sf::Vector2i(60, 56)));
+	fasterStepButton.setPosition(5.f + 60 * 3, mWindow.getSize().y - 56 - 5);
+
+	timeStep = possibleTimeSteps[timeStepChoice];
+
 }
 
 void Game::run()
@@ -66,9 +84,35 @@ void Game::processEvents()
 			if (playpauseButton.getGlobalBounds().contains((float)mousePos.x, (float)mousePos.y))
 			{
 				if (gameState == Pause)
+				{
 					gameState = Play;
+					playpauseButton.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(60, 56)));
+				}
 				else
+				{
 					gameState = Pause;
+					playpauseButton.setTextureRect(sf::IntRect(sf::Vector2i(123, 0), sf::Vector2i(60, 56)));
+				}
+			}
+
+			if (stopButton.getGlobalBounds().contains((float)mousePos.x, (float)mousePos.y))
+			{
+				mWorld.reset();
+				gameState = Pause;
+				playpauseButton.setTextureRect(sf::IntRect(sf::Vector2i(123, 0), sf::Vector2i(60, 56)));
+			}
+
+			if (fasterStepButton.getGlobalBounds().contains((float)mousePos.x, (float)mousePos.y))
+			{
+				if (timeStepChoice != 0)
+					--timeStepChoice;
+				timeStep = possibleTimeSteps[timeStepChoice];
+			}
+			if (slowerStepButton.getGlobalBounds().contains((float)mousePos.x, (float)mousePos.y))
+			{
+				if (timeStepChoice != possibleTimeSteps.size() - 1)
+					++timeStepChoice;
+				timeStep = possibleTimeSteps[timeStepChoice];
 			}
 
 			mWorld.switchCell(mousePos.x, mousePos.y);
@@ -141,5 +185,8 @@ void Game::render()
 	mWindow.draw(mStatisticsText);
 	mWindow.draw(mGenerationText);
 	mWindow.draw(playpauseButton);
+	mWindow.draw(stopButton);
+	mWindow.draw(fasterStepButton);
+	mWindow.draw(slowerStepButton);
 	mWindow.display();
 }

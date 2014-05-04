@@ -13,6 +13,7 @@ public:
 	void			rejuvenateCell(int x, int y);
 	void			killCell(int x, int y);
 	unsigned int	getGeneration() const;
+	void			reset();
 
 	virtual void	draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

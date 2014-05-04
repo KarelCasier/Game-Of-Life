@@ -2,9 +2,7 @@
 
 #include <SFML/System/Time.hpp>
 #include "World.h"
-#include <vector>
 #include <memory>
-#include <cmath>
 #include <iostream>
 #include <sstream>
 
@@ -38,6 +36,9 @@ private:
 
 	sf::Text				mGenerationText;
 
+	std::array<sf::Time, 4>	possibleTimeSteps;
+	unsigned int			timeStepChoice;
+
 	enum GameState
 	{
 		Play,
@@ -46,6 +47,11 @@ private:
 	GameState				gameState;
 
 	//Buttons
-	sf::RectangleShape playpauseButton;
+	sf::Texture controlsTexture;
+
+	sf::Sprite playpauseButton;
+	sf::Sprite stopButton;
+	sf::Sprite fasterStepButton;
+	sf::Sprite slowerStepButton;
 
 };
