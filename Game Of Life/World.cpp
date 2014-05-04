@@ -8,6 +8,7 @@
 World::World(unsigned int width, unsigned int height)
 : mGridSize(width, height)
 , tSize(10)
+, mGeneration(0)
 {
 	// set up stateArray
 	for (unsigned int i = 0; i < width; ++i)
@@ -93,6 +94,7 @@ void World::simulate()
 		}
 	}
 	stateArray = newStateArray;
+	++mGeneration;
 }
 
 unsigned int World::getNumLiveNeighbours(unsigned int x, unsigned int y)
@@ -178,7 +180,7 @@ void World::changeVertexColour(sf::Vertex* quad, sf::Color colour)
 	quad[3].color = colour; //bottom left
 }
 
-void World::rejuvenateCell(int x, int y)
+void World::switchCell(int x, int y)
 {
 	int i = static_cast<int>(floor(x / tSize));
 	int j = static_cast<int>(floor(y / tSize));
@@ -194,6 +196,11 @@ void World::rejuvenateCell(int x, int y)
 		sf::Vertex* quad = &mVertices[(i + j * mGridSize.x) * 4];
 		changeVertexColour(quad, sf::Color::Black);
 	}
+}
+
+unsigned int World::getGeneration() const
+{
+	return mGeneration;
 }
 
 void World::draw(sf::RenderTarget& target, sf::RenderStates states) const

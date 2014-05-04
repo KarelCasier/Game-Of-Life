@@ -20,7 +20,11 @@ Game::Game()
 	mStatisticsText.setPosition(5.f, 5.f);
 	mStatisticsText.setCharacterSize(10);
 
-	mTextBackground.setSize(sf::Vector2f(115.f, 35.f));
+	mGenerationText.setFont(mFont);
+	mGenerationText.setPosition(5.f, 30.f);
+	mGenerationText.setCharacterSize(10);
+
+	mTextBackground.setSize(sf::Vector2f(115.f, 55.f));
 	mTextBackground.setFillColor(sf::Color(0, 0, 0, 80));
 
 	playpauseButton.setSize(sf::Vector2f(20.f, 20.f));
@@ -67,7 +71,7 @@ void Game::processEvents()
 					gameState = Pause;
 			}
 
-			mWorld.rejuvenateCell(mousePos.x, mousePos.y);
+			mWorld.switchCell(mousePos.x, mousePos.y);
 		}
 		
 
@@ -88,6 +92,12 @@ void Game::update(sf::Time dtTime)
 			mWorld.simulate();
 		}
 	}
+	std::stringstream strStream;
+
+	strStream << "Generation: " << mWorld.getGeneration() << std::endl <<
+		"Timestep: " << timeStep.asSeconds() << "seconds";
+
+	mGenerationText.setString(strStream.str());
 }
 
 void Game::updateStatistics(sf::Time elapsedTime)
@@ -100,7 +110,7 @@ void Game::updateStatistics(sf::Time elapsedTime)
 	if (mStatisticsUpdateTime >= sf::seconds(1.0f))
 	{
 		strStream << "Frames / Second = " << mStatisticsNumFrames << "\n" <<
-			"Time / Update = " << mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames << "us";
+			"Time / Update = " << mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames << "us" << std::endl;
 
 		mStatisticsText.setString(strStream.str());
 
@@ -115,6 +125,7 @@ void Game::render()
 	mWindow.draw(mWorld);
 	mWindow.draw(mTextBackground);
 	mWindow.draw(mStatisticsText);
+	mWindow.draw(mGenerationText);
 	mWindow.draw(playpauseButton);
 	mWindow.display();
 }

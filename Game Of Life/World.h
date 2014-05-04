@@ -9,7 +9,9 @@ class World : public sf::Drawable, public sf::Transformable
 public:
 					World(unsigned int width, unsigned int height);
 	void			simulate();
-	void			rejuvenateCell(int x, int y);
+	void			switchCell(int x, int y);
+	unsigned int	getGeneration() const;
+
 	virtual void	draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
@@ -25,8 +27,9 @@ private:
 
 	sf::VertexArray						mVertices;
 
-	sf::Vector2u					mGridSize;
+	sf::Vector2u						mGridSize;
 	unsigned int						tSize;
+	unsigned int						mGeneration;
 
 	std::array<std::array<cellState, 100>, 100> stateArray;
 	std::array<std::array<cellState, 100>, 100> newStateArray;

@@ -36,6 +36,8 @@ private:
 	std::size_t				mStatisticsNumFrames;
 	sf::RectangleShape		mTextBackground;
 
+	sf::Text				mGenerationText;
+
 	enum GameState
 	{
 		Play,
