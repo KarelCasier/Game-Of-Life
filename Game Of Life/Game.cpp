@@ -11,8 +11,8 @@ Game::Game()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
 , gameState(Pause)
-, possibleTimeSteps({ { sf::seconds(.1), sf::seconds(.3), sf::seconds(.7), sf::seconds(1)} })
-, timeStepChoice(1)
+, possibleTimeSteps({ { sf::seconds(.01), sf::seconds(.1), sf::seconds(.3), sf::seconds(.7), sf::seconds(1) } })
+, timeStepChoice(2)
 {
 	mWindow.setKeyRepeatEnabled(false);
 

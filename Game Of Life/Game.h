@@ -36,7 +36,7 @@ private:
 
 	sf::Text				mGenerationText;
 
-	std::array<sf::Time, 4>	possibleTimeSteps;
+	std::array<sf::Time, 5>	possibleTimeSteps;
 	unsigned int			timeStepChoice;
 
 	enum GameState
